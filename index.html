@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./static/css/style.css" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0"
+    />
+  </head>
+  <body>
+    <main class="wholePage">
+      <form class="formGrid">
+        <div>
+          <label for="username">Username: </label>
+          <input type="text" id="username" required />
+        </div>
+
+        <div>
+          <label for="email">E-Mail: </label>
+          <input type="email" id="email" required />
+        </div>
+
+        <div>
+          <label for="pwd">Password: </label>
+          <input type="password" id="pwd" required />
+        </div>
+
+        <div id="checkboxCaptcha">
+          <input type="checkbox" id="captcha" />
+          <label for="captcha">CAPTCHA</label>
+        </div>
+
+        <button type="submit" id="registerButton">SIGN UP</button>
+      </form>
+    </main>
+  </body>
+  <script src="./static/js/script.js"></script>
+</html>
