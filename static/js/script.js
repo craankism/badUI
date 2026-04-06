@@ -89,15 +89,16 @@ function background() {
     body.style.backgroundColor = 'black';
     body.replaceChildren();
     const wholePage = document.createElement('main');
-    wholePage.setAttribute('class', 'wholePage');
+    wholePage.classList.add('wholePage');
+
     body.appendChild(wholePage);
     const wildCaptchaTop = document.createElement('img');
     wildCaptchaTop.setAttribute('src', './static/img/captcha.jpg');
-    wildCaptchaTop.setAttribute('id', 'wildCaptchaTop');
+    wildCaptchaTop.id = 'wildCaptchaTop';
     wholePage.appendChild(wildCaptchaTop);
     const wildCaptchaBottom = document.createElement('img');
     wildCaptchaBottom.setAttribute('src', './static/img/captcha.jpg');
-    wildCaptchaBottom.setAttribute('id', 'wildCaptchaBottom');
+    wildCaptchaBottom.id = 'wildCaptchaBottom';
     wholePage.appendChild(wildCaptchaBottom);
 
     wildCaptchaBottom.addEventListener('load', () => {
@@ -105,27 +106,59 @@ function background() {
         wildCaptchaBottom.classList.add('arrived');
         setTimeout(() => {
             wholePage.replaceChildren();
-            const buttonGroup = document.createElement('div');
-            buttonGroup.classList.add('buttonGroup');
+            const buttonAndImage = document.createElement('div');
+            buttonAndImage.id = 'captchaFightContainer';
+            wholePage.appendChild(buttonAndImage);
             const captchaFight = document.createElement('img');
             captchaFight.setAttribute('src', './static/img/captchaFight.png');
-            captchaFight.setAttribute('id', 'captchaFight');
-            captchaFight.style.zIndex = '-1';
-            wholePage.appendChild(captchaFight);
-            const buttonFight = document.createElement('button');
-            buttonFight.textContent = 'Fight';
-            buttonGroup.appendChild(buttonFight);
-            wholePage.appendChild(buttonGroup);
-            const buttonPack = document.createElement('button');
-            buttonPack.textContent = 'Pack';
-            buttonGroup.appendChild(buttonPack);
-            wholePage.appendChild(buttonGroup);
-            const buttonRun = document.createElement('button');
-            buttonRun.textContent = 'Run';
-            buttonGroup.appendChild(buttonRun);
-            wholePage.appendChild(buttonGroup);
-
+            captchaFight.id = 'captchaFight';
+            buttonAndImage.appendChild(captchaFight);
+            const buttonGroup = document.createElement('div');
+            buttonGroup.id = 'buttonGroup'
+            buttonAndImage.appendChild(buttonGroup);
+            buttonMenu();
         }, 2000);
+    })
+}
+
+function buttonMenu() {
+    const buttonGroup = document.querySelector('#buttonGroup');
+    buttonGroup.replaceChildren();
+    const buttonFight = document.createElement('button');
+    buttonFight.classList.add('buttonMenu');
+    buttonFight.id = 'buttonFight';
+    buttonFight.textContent = 'Fight';
+    buttonGroup.appendChild(buttonFight);
+    const buttonPack = document.createElement('button');
+    buttonPack.classList.add('buttonMenu');
+    buttonPack.id = 'buttonPack'
+    buttonPack.textContent = 'Pack';
+    buttonGroup.appendChild(buttonPack);
+    const buttonRun = document.createElement('button');
+    buttonRun.classList.add('buttonMenu');
+    buttonRun.id = 'buttonRun';
+    buttonRun.textContent = 'Run';
+    buttonGroup.appendChild(buttonRun);
+
+
+    // Button "Fight" clicked
+    buttonFight.addEventListener('click', () => {
+        buttonGroup.replaceChildren();
+        const buttonTackle = document.createElement('button');
+        buttonTackle.classList.add('buttonMenu');
+        buttonTackle.id = 'buttonTackle';
+        buttonTackle.textContent = 'Tackle';
+        buttonGroup.appendChild(buttonTackle);
+        const buttonBack = document.createElement('button');
+        buttonBack.classList.add('buttonMenu');
+        buttonBack.id = 'buttonBack'
+        buttonBack.textContent = 'Back';
+        buttonGroup.appendChild(buttonBack);
+        buttonTackle.addEventListener('click', () => {
+            // What happens when tackled???
+            buttonMenu();
+        })
+        buttonBack.addEventListener('click', buttonMenu);
     })
 }
 
