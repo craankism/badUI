@@ -91,10 +91,10 @@ label {
     display: grid;
     position: absolute;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 20%;
-    bottom: 50px;
-    right: 12%;
-    bottom: 7%;
+    right: 9%;
+    bottom: 10%;
 }
 
 .buttonMenu {
@@ -129,6 +129,17 @@ label {
 
 #captchaFight {
     z-index: -1;
+}
+
+@keyframes tackle {
+    0%   { transform: translate(0, 0); }
+    35%  { transform: translate(12vw, -12vh); }
+    60%  { transform: translate(12vw, -12vh); }
+    100% { transform: translate(0, 0); }
+}
+
+#captchaFightContainer.tackle {
+    animation: tackle 0.3s ease-in-out;
 }
 
 @media (min-width: 481px) {

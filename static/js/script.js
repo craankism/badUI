@@ -1,6 +1,10 @@
 const body = document.querySelector('body');
 const captcha = document.querySelector('#captcha');
 const wholePage = document.querySelector('.wholePage');
+const username = document.querySelector('#username');
+const email = document.querySelector('#email');
+const password = document.querySelector('#pwd');
+const register = document.querySelector('registerButton');
 
 const boxSize = 60;
 let maxWidth = body.clientWidth;
@@ -13,7 +17,22 @@ let j = 0;
 let round = 1;
 let margin = 0;
 
+let pokeballs = 3;
+
+register.addEventListener('click', () => {
+    localStorage.clear();
+})
+
+username.value = localStorage.getItem('username');
+email.value = localStorage.getItem('email');
+password.value = localStorage.getItem('password');
+captcha.checked = localStorage.getItem('success');
+
 captcha.addEventListener('change', () => {
+    localStorage.setItem('username', username.value);
+    localStorage.setItem('email', email.value);
+    localStorage.setItem('password', password.value);
+    localStorage.setItem('success', false);
     newSquareRow(i, j);
     round++;
 })
@@ -106,19 +125,25 @@ function background() {
         wildCaptchaBottom.classList.add('arrived');
         setTimeout(() => {
             wholePage.replaceChildren();
-            const buttonAndImage = document.createElement('div');
-            buttonAndImage.id = 'captchaFightContainer';
-            wholePage.appendChild(buttonAndImage);
-            const captchaFight = document.createElement('img');
-            captchaFight.setAttribute('src', './static/img/captchaFight.png');
-            captchaFight.id = 'captchaFight';
-            buttonAndImage.appendChild(captchaFight);
-            const buttonGroup = document.createElement('div');
-            buttonGroup.id = 'buttonGroup'
-            buttonAndImage.appendChild(buttonGroup);
+            mainMenuBackground();
             buttonMenu();
         }, 2000);
     })
+}
+
+function mainMenuBackground() {
+    const wholePage = document.querySelector('.wholePage');
+    wholePage.replaceChildren();
+    const buttonAndImage = document.createElement('div');
+    buttonAndImage.id = 'captchaFightContainer';
+    wholePage.appendChild(buttonAndImage);
+    const captchaFight = document.createElement('img');
+    captchaFight.setAttribute('src', './static/img/captchaFight.png');
+    captchaFight.id = 'captchaFight';
+    buttonAndImage.appendChild(captchaFight);
+    const buttonGroup = document.createElement('div');
+    buttonGroup.id = 'buttonGroup'
+    buttonAndImage.appendChild(buttonGroup);
 }
 
 function buttonMenu() {
@@ -140,7 +165,6 @@ function buttonMenu() {
     buttonRun.textContent = 'Run';
     buttonGroup.appendChild(buttonRun);
 
-
     // Button "Fight" clicked
     buttonFight.addEventListener('click', () => {
         buttonGroup.replaceChildren();
@@ -154,11 +178,73 @@ function buttonMenu() {
         buttonBack.id = 'buttonBack'
         buttonBack.textContent = 'Back';
         buttonGroup.appendChild(buttonBack);
+        // Tackle Button
         buttonTackle.addEventListener('click', () => {
-            // What happens when tackled???
-            buttonMenu();
+            const container = document.querySelector('#captchaFightContainer');
+            const wholePage = document.querySelector('.wholePage');
+            container.classList.add('tackle');
+            container.addEventListener('animationend', () => {
+                setTimeout(() => {
+                    wholePage.replaceChildren();
+                    const tackle = document.createElement('img');
+                    tackle.setAttribute('src', './static/img/tackle.jpg');
+                    wholePage.appendChild(tackle);
+                }, 500);
+                setTimeout(() => {
+                    wholePage.replaceChildren();
+                    mainMenuBackground();
+                    buttonMenu();
+                }, 4000);
+
+            }, { once: true });
         })
+        // Back Button
         buttonBack.addEventListener('click', buttonMenu);
+    })
+    // Button "Pack" clicked
+    buttonPack.addEventListener('click', () => {
+        buttonGroup.replaceChildren();
+        const buttonPokeball = document.createElement('button');
+        buttonPokeball.classList.add('buttonMenu');
+        buttonPokeball.id = 'buttonPokeball';
+        buttonPokeball.textContent = pokeballs + 'x Pokeball';
+        buttonGroup.appendChild(buttonPokeball);
+        const buttonBack = document.createElement('button');
+        buttonBack.classList.add('buttonMenu');
+        buttonBack.id = 'buttonBack'
+        buttonBack.textContent = 'Back';
+        buttonGroup.appendChild(buttonBack);
+        // Pokeball Button
+        buttonPokeball.addEventListener('click', () => {
+            const wholePage = document.querySelector('.wholePage');
+            wholePage.replaceChildren();
+            const pokeballThrow = document.createElement('img');
+            pokeballThrow.setAttribute('src', './static/img/pokeballThrow.gif');
+            wholePage.appendChild(pokeballThrow);
+            setTimeout(() => {
+                wholePage.replaceChildren();
+                const chance = Math.floor(Math.random() * 1) + 1;
+                if (pokeballs <= 0) {
+                    location.reload();
+                } else if (chance === 1) {
+                    localStorage.setItem('success', true)
+                    location.reload();
+                    setTimeout(() => alert("Pokeball success!"), 0);
+                } else {
+                    pokeballs--;
+                    mainMenuBackground();
+                    buttonMenu();
+                    setTimeout(() => alert("Pokeball missed!"), 0);
+                }
+            }, 2000);
+
+        })
+        // Back Button
+        buttonBack.addEventListener('click', buttonMenu);
+    })
+    // Button "Run" clicked
+    buttonRun.addEventListener('click', () => {
+        location.reload();
     })
 }
 
