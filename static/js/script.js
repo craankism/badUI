@@ -4,7 +4,7 @@ const wholePage = document.querySelector('.wholePage');
 const username = document.querySelector('#username');
 const email = document.querySelector('#email');
 const password = document.querySelector('#pwd');
-const register = document.querySelector('registerButton');
+const register = document.querySelector('#registerButton');
 
 const boxSize = 60;
 let maxWidth = body.clientWidth;
@@ -148,6 +148,7 @@ function mainMenuBackground() {
 
 function buttonMenu() {
     const buttonGroup = document.querySelector('#buttonGroup');
+    buttonGroup.style.gridTemplateColumns = '1fr 1fr';
     buttonGroup.replaceChildren();
     const buttonFight = document.createElement('button');
     buttonFight.classList.add('buttonMenu');
@@ -184,18 +185,24 @@ function buttonMenu() {
             const wholePage = document.querySelector('.wholePage');
             container.classList.add('tackle');
             container.addEventListener('animationend', () => {
-                setTimeout(() => {
-                    wholePage.replaceChildren();
-                    const tackle = document.createElement('img');
-                    tackle.setAttribute('src', './static/img/tackle.jpg');
-                    wholePage.appendChild(tackle);
-                }, 500);
-                setTimeout(() => {
-                    wholePage.replaceChildren();
-                    mainMenuBackground();
-                    buttonMenu();
-                }, 4000);
-
+                const chance = Math.floor(Math.random() * 20) + 1;
+                if (chance != 1) {
+                    setTimeout(() => {
+                        wholePage.replaceChildren();
+                        const tackle = document.createElement('img');
+                        tackle.setAttribute('src', './static/img/tackle.jpg');
+                        wholePage.appendChild(tackle);
+                    }, 500);
+                    setTimeout(() => {
+                        wholePage.replaceChildren();
+                        mainMenuBackground();
+                        buttonMenu();
+                    }, 4000);
+                } else {
+                    localStorage.setItem('success', true)
+                    location.reload();
+                    setTimeout(() => alert("Tackle success!"), 0);
+                }
             }, { once: true });
         })
         // Back Button
@@ -214,36 +221,42 @@ function buttonMenu() {
         buttonBack.id = 'buttonBack'
         buttonBack.textContent = 'Back';
         buttonGroup.appendChild(buttonBack);
+        buttonGroup.style.gridTemplateColumns = '1fr';
         // Pokeball Button
-        buttonPokeball.addEventListener('click', () => {
-            const wholePage = document.querySelector('.wholePage');
-            wholePage.replaceChildren();
-            const pokeballThrow = document.createElement('img');
-            pokeballThrow.setAttribute('src', './static/img/pokeballThrow.gif');
-            wholePage.appendChild(pokeballThrow);
-            setTimeout(() => {
+        if (pokeballs > 0) {
+            buttonPokeball.addEventListener('click', () => {
+                const wholePage = document.querySelector('.wholePage');
                 wholePage.replaceChildren();
-                const chance = Math.floor(Math.random() * 1) + 1;
-                if (pokeballs <= 0) {
-                    location.reload();
-                } else if (chance === 1) {
-                    localStorage.setItem('success', true)
-                    location.reload();
-                    setTimeout(() => alert("Pokeball success!"), 0);
-                } else {
-                    pokeballs--;
-                    mainMenuBackground();
-                    buttonMenu();
-                    setTimeout(() => alert("Pokeball missed!"), 0);
-                }
-            }, 2000);
+                const pokeballThrow = document.createElement('img');
+                pokeballThrow.setAttribute('src', './static/img/pokeballThrow.gif');
+                wholePage.appendChild(pokeballThrow);
+                setTimeout(() => {
+                    wholePage.replaceChildren();
+                    const chance = Math.floor(Math.random() * 10) + 1;
+                    if (pokeballs <= 0) {
+                        mainMenuBackground();
+                        buttonMenu();
+                        setTimeout(() => alert("No Pokeballs left!"), 0);
+                    } else if (chance === 1) {
+                        localStorage.setItem('success', true)
+                        location.reload();
+                        setTimeout(() => alert("Pokeball success!"), 0);
+                    } else {
+                        pokeballs--;
+                        mainMenuBackground();
+                        buttonMenu();
+                        setTimeout(() => alert("Pokeball missed!"), 0);
+                    }
+                }, 1800);
+            })
+        }
 
-        })
         // Back Button
         buttonBack.addEventListener('click', buttonMenu);
     })
     // Button "Run" clicked
     buttonRun.addEventListener('click', () => {
+        localStorage.clear();
         location.reload();
     })
 }
