@@ -4,14 +4,14 @@ const wholePage = document.querySelector('.wholePage');
 const username = document.querySelector('#username');
 const email = document.querySelector('#email');
 const password = document.querySelector('#pwd');
-const register = document.querySelector('#registerButton');
+const form = document.querySelector('#formGrid');
 
+// black battle start spiral variables
 const boxSize = 60;
 let maxWidth = body.clientWidth;
 let maxHeight = body.clientHeight;
 let maxSquareHeight = maxHeight / boxSize;
 let maxSquareWidth = maxWidth / boxSize;
-
 let i = 0;
 let j = 0;
 let round = 1;
@@ -19,15 +19,22 @@ let margin = 0;
 
 let pokeballs = 3;
 
-register.addEventListener('click', () => {
+// submit event
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
     localStorage.clear();
+    confirm("You don't have enough RAM!");
+    setTimeout(() => {
+        window.location.replace('https://downloadmoreram.com/');
+    });
 })
 
 username.value = localStorage.getItem('username');
 email.value = localStorage.getItem('email');
 password.value = localStorage.getItem('password');
-captcha.checked = localStorage.getItem('success');
+captcha.checked = localStorage.getItem('success') === 'true';
 
+// captcha checkbox clicked
 captcha.addEventListener('change', () => {
     localStorage.setItem('username', username.value);
     localStorage.setItem('email', email.value);
@@ -37,6 +44,7 @@ captcha.addEventListener('change', () => {
     round++;
 })
 
+// black battle start spiral
 function addBlackSquare(battleIntroScreen, n) {
     if (n <= 0) {
         switch (round) {
@@ -80,7 +88,6 @@ function addBlackSquare(battleIntroScreen, n) {
         addBlackSquare(battleIntroScreen, n - 1);
     }, 5);
 }
-
 function newSquareRow(i, j) {
     /*
     Oben nach unten   => i === 0 && j === 0
@@ -104,6 +111,7 @@ function newSquareRow(i, j) {
     else if (j === 1 || j === 3) addBlackSquare(battleIntroScreen, maxSquareWidth);
 }
 
+// battle background intro
 function background() {
     body.style.backgroundColor = 'black';
     body.replaceChildren();
@@ -131,6 +139,7 @@ function background() {
     })
 }
 
+// battle background
 function mainMenuBackground() {
     const wholePage = document.querySelector('.wholePage');
     wholePage.replaceChildren();
@@ -201,7 +210,7 @@ function buttonMenu() {
                 } else {
                     localStorage.setItem('success', true)
                     location.reload();
-                    setTimeout(() => alert("Tackle success!"), 0);
+                    setTimeout(() => alert("Tackle success! CAPTCHA died!"), 0);
                 }
             }, { once: true });
         })
@@ -240,7 +249,7 @@ function buttonMenu() {
                     } else if (chance === 1) {
                         localStorage.setItem('success', true)
                         location.reload();
-                        setTimeout(() => alert("Pokeball success!"), 0);
+                        setTimeout(() => alert("You captured the CAPTCHA!"), 0);
                     } else {
                         pokeballs--;
                         mainMenuBackground();

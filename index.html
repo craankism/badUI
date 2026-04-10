@@ -11,7 +11,7 @@
   </head>
   <body>
     <main class="wholePage">
-      <form class="formGrid">
+      <form id="formGrid">
         <div>
           <label for="username">Username: </label>
           <input type="text" id="username" required />
@@ -27,10 +27,10 @@
           <input type="password" id="pwd" required />
         </div>
 
-        <div id="checkboxCaptcha">
+        <label id="checkboxCaptcha" for="captcha">CAPTCHA
           <input type="checkbox" id="captcha" required />
-          <label for="captcha">CAPTCHA</label>
-        </div>
+          <span class="checkmark"></span>
+        </label>
 
         <button type="submit" id="registerButton">SIGN UP</button>
       </form>
