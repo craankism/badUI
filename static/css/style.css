@@ -66,13 +66,13 @@ label {
 }
 
 #checkboxCaptcha {
-  justify-self: center;
-  display: block;
+  justify-self: left;
+  display: inline-flex;
+  align-items: center;
   position: relative;
   padding-left: 35px;
   min-height: 25px;
   cursor: pointer;
-  font-size: 23px;
 }
 #checkboxCaptcha input {
   position: absolute;
@@ -82,8 +82,9 @@ label {
 }
 .checkmark {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
+  transform: translateY(-50%);
   height: 25px;
   width: 25px;
   border-radius: 50%;
@@ -140,6 +141,7 @@ label {
 #captchaFightContainer {
   position: relative;
   display: inline-flex;
+  max-height: 100vh;
 }
 
 /* menu buttons on positioned on top of image */
@@ -207,6 +209,12 @@ label {
 
 @media (min-width: 481px) {
   #formGrid {
-    grid-template-columns: 30vw;
+    grid-template-columns: 20vw;
+    row-gap: 3vh;
+  }
+  #username,
+  #email,
+  #pwd {
+    height: 4vh;
   }
 }

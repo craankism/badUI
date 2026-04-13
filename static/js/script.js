@@ -19,6 +19,14 @@ let margin = 0;
 
 let pokeballs = 3;
 
+// refresh site on window resize for right clientWidth/height
+if (body.clientWidth > 481) {
+    window.addEventListener('resize', () => {
+        localStorage.clear();
+        location.reload();
+    })
+}
+
 // submit event
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -86,7 +94,7 @@ function addBlackSquare(battleIntroScreen, n) {
     //console.log(n);
     setTimeout(() => {
         addBlackSquare(battleIntroScreen, n - 1);
-    }, 5);
+    }, 0);
 }
 function newSquareRow(i, j) {
     /*
@@ -195,23 +203,18 @@ function buttonMenu() {
             container.classList.add('tackle');
             container.addEventListener('animationend', () => {
                 const chance = Math.floor(Math.random() * 20) + 1;
-                if (chance != 1) {
-                    setTimeout(() => {
-                        wholePage.replaceChildren();
-                        const tackle = document.createElement('img');
-                        tackle.setAttribute('src', './static/img/tackle.jpg');
-                        wholePage.appendChild(tackle);
-                    }, 500);
-                    setTimeout(() => {
-                        wholePage.replaceChildren();
-                        mainMenuBackground();
-                        buttonMenu();
-                    }, 4000);
-                } else {
-                    localStorage.setItem('success', true)
-                    location.reload();
-                    setTimeout(() => alert("Tackle success! CAPTCHA died!"), 0);
-                }
+                setTimeout(() => {
+                    wholePage.replaceChildren();
+                    const tackle = document.createElement('img');
+                    tackle.setAttribute('src', './static/img/tackle.jpg');
+                    wholePage.appendChild(tackle);
+                }, 500);
+                setTimeout(() => {
+                    wholePage.replaceChildren();
+                    mainMenuBackground();
+                    buttonMenu();
+                }, 4000);
+
             }, { once: true });
         })
         // Back Button
